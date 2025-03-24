@@ -1,0 +1,9 @@
+compiler:
+  evm_version: london
+  solc:
+    version: 0.8.20
+    optimizer:
+      enabled: false
+    minify_source: false
+    remappings:
+      - '@openzeppelin=~/.brownie/packages/OpenZeppelin/openzeppelin-contracts@4.8.1'
