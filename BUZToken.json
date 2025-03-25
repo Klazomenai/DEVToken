@@ -7,7 +7,7 @@
         "evmVersion": "london",
         "libraries": {},
         "metadata": {
-            "bytecodeHash": "ipfs"
+            "bytecodeHash": "none"
         },
         "optimizer": {
             "enabled": false,

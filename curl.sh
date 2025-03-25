@@ -9,5 +9,6 @@ curl -Lv \
   --form 'compiler_version=v0.8.20+commit.a1b79de6' \
   --form 'contract_name=BUZToken' \
   --form 'files[0]=@BUZToken.json' \
-  --form 'autodetect_constructor_args=true' \
+  --form 'autodetect_constructor_args=false' \
+  --form 'constructor_args=0000000000000000000000002f329433dbcf4918e5803776d866049d3f396d7e' \
   --form 'license_type=mit'
