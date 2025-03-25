@@ -1,4 +1,4 @@
-# DEVToken
+# 💻 DEVToken
 A bare-bones implementation of the Ethereum [ERC-20 standard](https://eips.ethereum.org/EIPS/eip-20), written in [Solidity](https://github.com/ethereum/solidity) and managed by [Brownie](https://eth-brownie.readthedocs.io/en/stable/index.html), to test smart contract pipelines and verifications in the [Piccadilly instance of Blockscout](https://piccadilly.autonity.org/).
 
 ## 🧠 Description
@@ -23,7 +23,7 @@ The Solidity compiler appends a metadata hash to the bytecode. This metadata con
 ### 🧬 Matching Elements Required for Full Verification
 
 ## 🔧 Install
-### Pre-requisites
+### 🧰 Pre-requisites
 - Ensure the correct version of `solc`:
 ```
 pip3 install solc-select
