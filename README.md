@@ -1,15 +1,28 @@
 # DEVToken
 A bare-bones implementation of the Ethereum [ERC-20 standard](https://eips.ethereum.org/EIPS/eip-20), written in [Solidity](https://github.com/ethereum/solidity) and managed by [Brownie](https://eth-brownie.readthedocs.io/en/stable/index.html), to test smart contract pipelines and verifications in the [Piccadilly instance of Blockscout](https://piccadilly.autonity.org/).
 
-## Description
-### Overview
+## 🧠 Description
+
+### ✅ Overview
 For a contract to be fully matched and verified, the compiled bytecode must match the deployed on-chain bytecode exactly — including both:
 - The runtime bytecode (what gets executed)
 - The embedded compiler metadata (appended during compilation)
 
 So, it’s not enough for the logic to be the same — everything about how the contract was compiled must match too.
 
-## Install
+### 📦 What’s in the Metadata That Affects Matching?
+The Solidity compiler appends a metadata hash to the bytecode. This metadata contains:
+- Compiler version
+- Source hash(es)
+- Settings (optimizer, evmVersion, bytecodeHash, etc.)
+- AST and legacy info
+- Tool version (e.g. if compiled by solc, hardhat, etc.)
+
+❗ Any difference in settings — even a different evmVersion or bytecodeHash — will change this metadata and therefore the bytecode hash.
+
+### 🧬 Matching Elements Required for Full Verification
+
+## 🔧 Install
 ### Pre-requisites
 - Ensure the correct version of `solc`:
 ```
@@ -51,13 +64,13 @@ brownie console --network piccadilly
 >>> print(account.address)
 ```
 
-### Compile
+### 🛠️ Compile
 - Compile the contracts:
 ```
 brownie compile
 ```
 
-### Deploy
+### ⛓️ Deploy
 - Set the `deployer` private key as an environment variable to be used by the `brownie deploy` script:
 ```
 export DEPLOYER_PRIVATE_KEY=...
@@ -77,7 +90,7 @@ Transaction sent: 0xb7030894c6959b2428e6daa6cc76105cb09de8b9e00a86d69792ab97e9c1
   Token deployed at: 0x8ad114bFa6616886E84900549C8Df59C58bA4725
 ```
 
-### Generating the Verification Payload
+### 🔍 Generating the Verification Payload
 - To manually ABI-encode the `constructor_args`, update the `scripts/ethers.js`, run it to generate the ABI, and update the `curl.sh` command.
 ```
 sudo apt install nodejs
@@ -93,8 +106,10 @@ and:
 sed ':a;N;$!ba;s/\n/\\n/g' contracts/Token.sol | xclip -selection clipboard
 ```
 
-### Contract Verification
-Contract verification can carried out by both the Blockscout WebUI, and API calls. This example uses curl to call the Blockscout API. Once 
+### 🧾 Contract Verification
+Contract verification can carried out by both the Blockscout WebUI, and API calls. This example uses curl to call the Blockscout API. Once the `verification_payload.json` and the `curl.sh` are fully populated with the relevant values:
 ```
-./curl
+./curl.sh
 ```
+
+### ⚗️ Test
