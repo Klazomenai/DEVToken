@@ -1,8 +1,15 @@
-# Buzzard Token
-Testing [ERC20 (imported from @OpenZeppelin) tokens](https://docs.openzeppelin.com/contracts/3.x/erc20) on the Autonity blockchain.
+# DEVToken
+A bare-bones implementation of the Ethereum [ERC-20 standard](https://eips.ethereum.org/EIPS/eip-20), written in [Solidity](https://github.com/ethereum/solidity) and managed by [Brownie](https://eth-brownie.readthedocs.io/en/stable/index.html), to test smart contract pipelines and verifications in the [Piccadilly instance of Blockscout](https://piccadilly.autonity.org/).
 
 ## Description
+### Overview
+For a contract to be fully matched and verified, the compiled bytecode must match the deployed on-chain bytecode exactly — including both:
+- The runtime bytecode (what gets executed)
+- The embedded compiler metadata (appended during compilation)
 
+So, it’s not enough for the logic to be the same — everything about how the contract was compiled must match too.
+
+## Install
 ### Pre-requisites
 - Ensure the correct version of `solc`:
 ```
@@ -10,6 +17,7 @@ pip3 install solc-select
 solc-select install 0.8.20
 solc-select use 0.8.20
 ```
+
 - This repository uses `brownie` for compilation and deployments of smart contracts, extending the [Autonity documentation on smart contract deployment](https://docs.autonity.org/developer/deploy-brownie/):
 ```
 pipx install eth-brownie
@@ -18,6 +26,11 @@ pipx install eth-brownie
 - Initialisation of the `brownie` project structure:
 ```
 brownie init
+```
+
+- Bake in the [Brownie-mix token contract template](https://github.com/brownie-mix/token-mix):
+```
+brownie bake
 ```
 
 - Network configurations can not live in the resident `brownie-config.yaml` file, and must be updated in the `~/.brownie/network-config.yaml` with:
@@ -34,14 +47,12 @@ brownie network list
 - Adding the deployer address to `brownie`:
 ```
 brownie console --network piccadilly
->>> account = accounts.add("PRIVATE_KEY")
+>>> account = accounts.add("DEPLOYER_PRIVATE_KEY")
 >>> print(account.address)
 ```
 
 ### Compile
-To ensure there are no issues with `imports`, the original Solidity test contract has been moved out of the `contracts/` directory to prevent `brownie` from reading the contract twice. The original file was flattened using the [RemixIDE](https://remix.ethereum.org/), and has been uploaded as `contracts/BUZToken.sol`
-
-- Compile the `BUZToken` with `brownie`:
+- Compile the contracts:
 ```
 brownie compile
 ```
@@ -54,25 +65,36 @@ export DEPLOYER_PRIVATE_KEY=...
 
 - Deploy the contract:
 ```
-brownie run --network piccadilly deploy main 0x2F329433dbCF4918E5803776D866049D3F396D7E
+brownie run --network piccadilly scripts/token.py
 ```
 
 - Healthy output example:
 ```
-Brownie v1.19.5 - Python development framework for Ethereum
-
-BuztokenProject is the active project.
-
-Running 'scripts/deploy.py::main'...
-Transaction sent: 0x2cee549fc4225df368e89f63edd3efdbad0f55a741d50d98f70bdc95fcce9dd5
-  Max fee: 2.5 gwei   Priority fee: 1.5 gwei   Gas limit: 1063010   Nonce: 7
-  BUZToken.constructor confirmed   Block: 8913182   Gas used: 966373 (90.91%)   Gas price: 2.0 gwei
-  BUZToken deployed at: 0xC66B0Ab3c084a57d0155B302186d84Ed7F47a6c8
+Running 'scripts/token.py::main'...
+Transaction sent: 0xb7030894c6959b2428e6daa6cc76105cb09de8b9e00a86d69792ab97e9c1983f
+  Max fee: 2.5 gwei   Priority fee: 1.5 gwei   Gas limit: 1061061   Nonce: 8
+  Token.constructor confirmed   Block: 8961103   Gas used: 964601 (90.91%)   Gas price: 2.0 gwei
+  Token deployed at: 0x8ad114bFa6616886E84900549C8Df59C58bA4725
 ```
 
-
+### Generating the Verification Payload
+- To manually ABI-encode the `constructor_args`, update the `scripts/ethers.js`, run it to generate the ABI, and update the `curl.sh` command.
 ```
-sed ':a;N;$!ba;s/\n/\\n/g' contracts/BUZToken_flattened.sol | xclip -selection clipboard
+sudo apt install nodejs
+node scripts/ethers.js
 ```
 
-- https://www.chainlens.com/post/solving-source-code-verification-in-ethereum
+- The `contracts/../` `content`, is single lined solidity, with end of line characters replaced with `\n`, so for each contract copy to clipboard, and paste in the `verification_payload.json`:
+```
+sed ':a;N;$!ba;s/\n/\\n/g' contracts/SafeMath.sol | xclip -selection clipboard
+```
+and:
+```
+sed ':a;N;$!ba;s/\n/\\n/g' contracts/Token.sol | xclip -selection clipboard
+```
+
+### Contract Verification
+Contract verification can carried out by both the Blockscout WebUI, and API calls. This example uses curl to call the Blockscout API. Once 
+```
+./curl
+```

@@ -1,9 +1,13 @@
 compiler:
   evm_version: london
   solc:
-    version: 0.8.20
+    version: 0.8.26
     optimizer:
       enabled: false
     minify_source: false
-    remappings:
-      - '@openzeppelin=~/.brownie/packages/OpenZeppelin/openzeppelin-contracts@4.8.1'
+
+# exclude SafeMath when calculating test coverage
+# https://eth-brownie.readthedocs.io/en/v1.10.3/config.html#exclude_paths
+reports:
+  exclude_contracts:
+    - SafeMath
