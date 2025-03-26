@@ -113,3 +113,6 @@ Contract verification can carried out by both the Blockscout WebUI, and API call
 ```
 
 ### ⚗️ Test
+```
+brownie test
+```
