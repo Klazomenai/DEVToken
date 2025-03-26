@@ -131,7 +131,15 @@ and:
 sed ':a;N;$!ba;s/\n/\\n/g' contracts/Token.sol | xclip -selection clipboard
 ```
 
+Once the JSON payload is fully generated, it can be submitted to the Blockscout contract verifier service, either by API calls, or by the Blaockscout WebUI.
+
 #### API
 ```
 ./curl.sh
 ```
+
+#### WebUI
+- On the Blockscout WebUI, click on Tokens, and search for the deployed contract, i.e. for [0x8ad114bFa6616886E84900549C8Df59C58bA4725](https://piccadilly.autonity.org/token/0x8ad114bFa6616886E84900549C8Df59C58bA4725)
+- Click on `Contract` > `Verify & publish`
+- Ensure values match the definitions as provided to the compiler:
+![2025-03-26_11-35](https://github.com/user-attachments/assets/aeb137ad-6a22-4c4e-96bc-4557cce5ede2)
