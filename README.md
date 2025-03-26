@@ -14,11 +14,11 @@ So, it’s not enough for the logic to be the same — everything about how the 
 The Solidity compiler appends a metadata hash to the bytecode. This metadata contains:
 - Compiler version
 - Source hash(es)
-- Settings (optimizer, evmVersion, bytecodeHash, etc.)
+- Settings (optimizer, evmVersion, etc.)
 - AST and legacy info
 - Tool version (e.g. if compiled by solc, hardhat, etc.)
 
-❗ Any difference in settings — even a different evmVersion or bytecodeHash — will change this metadata and therefore the bytecode hash.
+❗ Any difference in settings will change this metadata and therefore the bytecode hash.
 
 ### 🧬 Matching Elements Required for Full Verification
 
