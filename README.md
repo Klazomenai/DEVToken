@@ -90,14 +90,39 @@ Transaction sent: 0xb7030894c6959b2428e6daa6cc76105cb09de8b9e00a86d69792ab97e9c1
   Token deployed at: 0x8ad114bFa6616886E84900549C8Df59C58bA4725
 ```
 
-### 🔍 Generating the Verification Payload
-- To manually ABI-encode the `constructor_args`, update the `scripts/ethers.js`, run it to generate the ABI, and update the `curl.sh` command (or use [online ABI Encoding Service](https://abi.hashex.org/)).
+### ⚗️ Test
+Open a shell inside the eth-brownie environment:
+```
+pipx runpip eth-brownie install --upgrade typing_extensions
+```
+
+This uses `pip` inside the `eth-brownie` environment to directly upgrade `typing_extensions`.
+
+- Run the tests:
+```
+brownie test
+```
+
+### 🧾 Contract Verification
+Contract verification can carried out by both the Blockscout WebUI, and API calls. This example uses curl to call the Blockscout API. Once the `verification_payload.json` and the `curl.sh` are fully populated with the relevant values:
+
+#### 🔍 Payload
+The JSON _payload_ is constructed from several files, and posted using curl.
+
+- [curl.sh](curl.sh) - Shell script using `curl` to interract with the [Blockscout smart-contract verification API
+](https://docs.blockscout.com/devs/verification/blockscout-smart-contract-verification-api)
+
+- [scripts/ethers.js](scripts/ethers.js) - ABI Encoder for the smart-contract constructor values
+To manually ABI-encode the `constructor_args`, update the `scripts/ethers.js`, run it to generate the ABI, and update the `curl.sh` command (or use [online ABI Encoding Service](https://abi.hashex.org/)).
 ```
 sudo apt install nodejs
 node scripts/ethers.js
 ```
 
-- The `contracts/../` `content`, is single lined solidity, with end of line characters replaced with `\n`, so for each contract copy to clipboard, and paste in the `verification_payload.json`:
+- [verification_payload.json](verification_payload.json) - Manually generated payload from the `brownie run` output
+The ouput from `brownie run` does not directly fit the input requirements of the Blockscout verifier service. The following are needed:
+
+The `contracts/../` `content`, is single lined solidity, with end of line characters replaced with `\n`, so for each contract copy to clipboard, and paste in the `verification_payload.json`:
 ```
 sed ':a;N;$!ba;s/\n/\\n/g' contracts/SafeMath.sol | xclip -selection clipboard
 ```
@@ -106,13 +131,7 @@ and:
 sed ':a;N;$!ba;s/\n/\\n/g' contracts/Token.sol | xclip -selection clipboard
 ```
 
-### 🧾 Contract Verification
-Contract verification can carried out by both the Blockscout WebUI, and API calls. This example uses curl to call the Blockscout API. Once the `verification_payload.json` and the `curl.sh` are fully populated with the relevant values:
+#### API
 ```
 ./curl.sh
-```
-
-### ⚗️ Test
-```
-brownie test
 ```
