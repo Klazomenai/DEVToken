@@ -91,7 +91,7 @@ Transaction sent: 0xb7030894c6959b2428e6daa6cc76105cb09de8b9e00a86d69792ab97e9c1
 ```
 
 ### 🔍 Generating the Verification Payload
-- To manually ABI-encode the `constructor_args`, update the `scripts/ethers.js`, run it to generate the ABI, and update the `curl.sh` command.
+- To manually ABI-encode the `constructor_args`, update the `scripts/ethers.js`, run it to generate the ABI, and update the `curl.sh` command (or use [online ABI Encoding Service](https://abi.hashex.org/)).
 ```
 sudo apt install nodejs
 node scripts/ethers.js
