@@ -1,18 +1,15 @@
 {
     "language": "Solidity",
     "settings": {
-        "compilationTarget": {
-            "contracts/Token.sol": "Token"
-        },
         "evmVersion": "london",
         "optimizer": {
             "enabled": false
+        },
+        "outputSelection": {
+            "*": {
+                "*": ["abi", "evm.bytecode", "evm.deployedBytecode"]
+            }
         }
-    },
-    "outputSelection": {
-      "*": {
-        "*": ["abi", "evm.bytecode", "evm.deployedBytecode"]
-      }
     },
     "sources": {
         "contracts/SafeMath.sol": {
