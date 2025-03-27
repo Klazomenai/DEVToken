@@ -49,7 +49,7 @@ brownie bake
 - Network configurations can not live in the resident `brownie-config.yaml` file, and must be updated in the `~/.brownie/network-config.yaml` with:
 ```
 export RPC_URL=https://favourite.autonity.arc.host
-brownie networks add Autonity piccadilly host=$RPC_URL chainid=65100004 explorer=https://piccadilly.autonity.org/api/
+brownie networks add Autonity piccadilly host=$RPC_URL chainid=65100004 explorer=https://piccadilly.autonity.org/api/v2/
 ```
 
 - Ensure the `brownie` network list now contains the Autonity Piccadilly network:
